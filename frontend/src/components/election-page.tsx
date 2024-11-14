@@ -122,6 +122,12 @@ const Election = () => {
     );
   return (
     <div className="bg-gradient-to-br from-gray-900 to-blue-900 text-white pt-4">
+      <button
+        className="text-xs border bg-white text-black rounded-md shadow-lg p-1"
+        onClick={() => localStorage.clear()}
+      >
+        Dangerous
+      </button>
       <h1 className="text-5xl font-bold text-center mb-12 text-white">
         Cast Your Vote!
       </h1>
