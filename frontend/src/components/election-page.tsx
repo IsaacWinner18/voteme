@@ -63,6 +63,12 @@ const Election = () => {
     setCandidates(userData);
   };
 
+  useEffect(() => {
+    setInterval(() => {
+      fetchUsers();
+    }, 10000);
+  }, []);
+
   const voteUser = async (id: string) => {
     const data = await fetch(`${server_url}/user/vote/${id}`, {
       method: "PATCH",
