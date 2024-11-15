@@ -5,6 +5,9 @@ import { Progress } from "@/components/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart } from "lucide-react";
 
+import { CSSProperties } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
+
 const saveVoteToLocalStorage = (candidateId: string) => {
   localStorage.setItem("vote", candidateId.toString());
 };
@@ -40,7 +43,6 @@ const saveVoteToLocalStorage = (candidateId: string) => {
 //     votes: 0,
 //   },
 // ];
-
 
 const Election = () => {
   const [candidates, setCandidates] = useState<
@@ -90,6 +92,7 @@ const Election = () => {
 
   useEffect(() => {
     fetchUsers();
+
     const voteExists = localStorage.getItem("vote");
     // const candidatesDataExists = localStorage.getItem("candidatesData");
 
@@ -118,9 +121,16 @@ const Election = () => {
   if (loading)
     return (
       <div className="grid place-content-center">
-        <p>Loading...</p>
+        <ClipLoader
+          color={"#000000"}
+          loading={true}
+          size={150}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
       </div>
     );
+
   return (
     <div className="bg-gradient-to-br from-gray-900 to-blue-900 text-white pt-4">
       {/* <button
@@ -150,6 +160,7 @@ const Election = () => {
               >
                 <div className="relative pb-[100%]">
                   <img
+                    loading="lazy"
                     src={candidate.image}
                     alt={candidate.name}
                     className="absolute top-0 left-0 w-full h-full object-cover"
