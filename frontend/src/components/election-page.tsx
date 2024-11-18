@@ -93,14 +93,16 @@ const Election = () => {
   useEffect(() => {
     fetchUsers();
 
+    window.addEventListener("DOMContentLoaded", () => {
+      setLoading(false);
+    });
+
     const voteExists = localStorage.getItem("vote");
     // const candidatesDataExists = localStorage.getItem("candidatesData");
 
     if (voteExists) setVotedCandidate(voteExists);
 
     // if (candidatesDataExists) setCandidates(JSON.parse(candidatesDataExists));
-
-    setLoading(false);
   }, []);
 
   const handleVote = (candidateId: string) => {
@@ -118,9 +120,114 @@ const Election = () => {
     }
   };
 
-  if (loading)
-    return (
-      <div className="grid place-content-center">
+  // if (loading)
+
+  return (
+    <div>
+      <div
+        className={`bg-gradient-to-br from-gray-900 to-blue-900 text-white pt-4 ${
+          loading ? "grid" : "hidden"
+        }`}
+      >
+        {/* <button
+        className="text-xs border bg-white text-black rounded-md shadow-lg p-1"
+        onClick={() => localStorage.clear()}
+      >
+        Dangerous
+      </button> */}
+
+        <h1 className="text-5xl font-bold text-center mb-12 text-white">
+          Cast Your Vote!
+        </h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+          {candidates.map((candidate) => {
+            return (
+              <motion.div
+                key={candidate._id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Card
+                  className={`bg-white text-gray-900 overflow-hidden transition-all duration-300 ${
+                    votedCandidate && votedCandidate !== candidate._id
+                      ? "opacity-50 scale-95"
+                      : "hover:shadow-lg hover:shadow-blue-500/20"
+                  }`}
+                >
+                  <div className="relative pb-[100%]">
+                    <img
+                      loading="lazy"
+                      // src={candidate.image}
+                      src="/pexels-dear.jpg"
+                      alt={candidate.name}
+                      className="absolute top-0 left-0 w-full h-full object-cover"
+                    />
+                  </div>
+                  <CardContent className="p-6">
+                    <h2 className="text-2xl font-bold mb-2 text-gray-800">
+                      {candidate.name}
+                    </h2>
+                    <p className="text-gray-600 mb-4">lorem ipsum</p>
+                    <div className="space-y-2">
+                      <Progress
+                        value={candidate.votes * 1}
+                        className="h-2 bg-gray-200"
+                      />
+                      <p className="text-sm text-gray-500 text-right">
+                        {candidate.votes}% of votes
+                      </p>
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    <Button
+                      className={`w-full py-6 text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105 ${
+                        votedCandidate && votedCandidate === candidate._id
+                          ? "bg-green-600 hover:bg-green-700"
+                          : "bg-blue-600 hover:bg-blue-700"
+                      }`}
+                      onClick={() => handleVote(candidate._id)}
+                      disabled={votedCandidate !== null}
+                    >
+                      <AnimatePresence>
+                        {votedCandidate === candidate._id ? (
+                          <motion.span
+                            key="voted"
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.5 }}
+                            className="flex items-center justify-center"
+                          >
+                            Voted! <Heart className="ml-2 fill-current" />
+                          </motion.span>
+                        ) : (
+                          <motion.span
+                            key="vote"
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.5 }}
+                            className="flex items-center justify-center"
+                          >
+                            Vote <Heart className="ml-2" />
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </Button>
+                  </CardFooter>
+                </Card>
+
+                <footer></footer>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div
+        className={`${
+          loading ? "grid" : "hidden"
+        } h-screen place-content-center`}
+      >
         <ClipLoader
           color={"#000000"}
           loading={true}
@@ -128,100 +235,6 @@ const Election = () => {
           aria-label="Loading Spinner"
           data-testid="loader"
         />
-      </div>
-    );
-
-  return (
-    <div className="bg-gradient-to-br from-gray-900 to-blue-900 text-white pt-4">
-      {/* <button
-        className="text-xs border bg-white text-black rounded-md shadow-lg p-1"
-        onClick={() => localStorage.clear()}
-      >
-        Dangerous
-      </button> */}
-      <h1 className="text-5xl font-bold text-center mb-12 text-white">
-        Cast Your Vote!
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
-        {candidates.map((candidate) => {
-          return (
-            <motion.div
-              key={candidate._id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Card
-                className={`bg-white text-gray-900 overflow-hidden transition-all duration-300 ${
-                  votedCandidate && votedCandidate !== candidate._id
-                    ? "opacity-50 scale-95"
-                    : "hover:shadow-lg hover:shadow-blue-500/20"
-                }`}
-              >
-                <div className="relative pb-[100%]">
-                  <img
-                    loading="lazy"
-                    src={candidate.image}
-                    alt={candidate.name}
-                    className="absolute top-0 left-0 w-full h-full object-cover"
-                  />
-                </div>
-                <CardContent className="p-6">
-                  <h2 className="text-2xl font-bold mb-2 text-gray-800">
-                    {candidate.name}
-                  </h2>
-                  <p className="text-gray-600 mb-4">lorem ipsum</p>
-                  <div className="space-y-2">
-                    <Progress
-                      value={candidate.votes * 1}
-                      className="h-2 bg-gray-200"
-                    />
-                    <p className="text-sm text-gray-500 text-right">
-                      {candidate.votes}% of votes
-                    </p>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Button
-                    className={`w-full py-6 text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105 ${
-                      votedCandidate && votedCandidate === candidate._id
-                        ? "bg-green-600 hover:bg-green-700"
-                        : "bg-blue-600 hover:bg-blue-700"
-                    }`}
-                    onClick={() => handleVote(candidate._id)}
-                    disabled={votedCandidate !== null}
-                  >
-                    <AnimatePresence>
-                      {votedCandidate === candidate._id ? (
-                        <motion.span
-                          key="voted"
-                          initial={{ opacity: 0, scale: 0.5 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.5 }}
-                          className="flex items-center justify-center"
-                        >
-                          Voted! <Heart className="ml-2 fill-current" />
-                        </motion.span>
-                      ) : (
-                        <motion.span
-                          key="vote"
-                          initial={{ opacity: 0, scale: 0.5 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.5 }}
-                          className="flex items-center justify-center"
-                        >
-                          Vote <Heart className="ml-2" />
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
-                  </Button>
-                </CardFooter>
-              </Card>
-
-              <footer></footer>
-            </motion.div>
-          );
-        })}
       </div>
     </div>
   );
