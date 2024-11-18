@@ -5,7 +5,6 @@ import { Progress } from "@/components/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart } from "lucide-react";
 
-import { CSSProperties } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 
 const saveVoteToLocalStorage = (candidateId: string) => {
