@@ -157,8 +157,8 @@ const Election = () => {
                   <div className="relative pb-[100%]">
                     <img
                       loading="lazy"
-                      // src={candidate.image}
-                      src="/pexels-dear.jpg"
+                      src={candidate.image}
+                      // src="/pexels-dear.jpg"
                       alt={candidate.name}
                       className="absolute top-0 left-0 w-full h-full object-cover"
                     />
@@ -167,7 +167,7 @@ const Election = () => {
                     <h2 className="text-2xl font-bold mb-2 text-gray-800">
                       {candidate.name}
                     </h2>
-                    <p className="text-gray-600 mb-4">lorem ipsum</p>
+                    <p className="text-gray-600 mb-4">Achievers University</p>
                     <div className="space-y-2">
                       <Progress
                         value={candidate.votes * 1}
@@ -222,7 +222,7 @@ const Election = () => {
         </div>
       </div>
 
-      <div
+      {/* <div
         className={`${
           loading ? "grid" : "hidden"
         } h-screen place-content-center`}
@@ -234,7 +234,7 @@ const Election = () => {
           aria-label="Loading Spinner"
           data-testid="loader"
         />
-      </div>
+      </div> */}
     </div>
   );
 };
