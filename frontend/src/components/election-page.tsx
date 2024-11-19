@@ -134,10 +134,10 @@ const Election = () => {
       </button> */}
 
       <div>
-      <h1 className="text-2xl md:text-4xl font-bold text-center md:mb-12 mb-6 text-white">
-        <p className="opacity-40">Achievers University Voting week</p>
+      <h1 className="text-2xl md:text-4xl font-bold text-center md:mb-12 mb-6 text-white m-1">
+        <p className="opacity-40">Achievers University Voting week.</p>
 
-          <p className="text-blue-200">Cast Your Vote!</p>
+          <p className="text-blue-200">Vote for Beauty of the week!</p>
         </h1>
 
 
