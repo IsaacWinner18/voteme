@@ -5,7 +5,7 @@ import { Progress } from "@/components/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart } from "lucide-react";
 
-import ClipLoader from "react-spinners/ClipLoader";
+// import ClipLoader from "react-spinners/ClipLoader";
 
 const saveVoteToLocalStorage = (candidateId: string) => {
   localStorage.setItem("vote", candidateId.toString());
@@ -53,7 +53,7 @@ const Election = () => {
     }[]
   >([]);
   const [votedCandidate, setVotedCandidate] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   // const server_url = "http://localhost:5000";
   // const server_url = "http://192.168.21.122:5000";
@@ -92,9 +92,9 @@ const Election = () => {
   useEffect(() => {
     fetchUsers();
 
-    window.addEventListener("DOMContentLoaded", () => {
-      setLoading(false);
-    });
+    // window.addEventListener("DOMContentLoaded", () => {
+    //   setLoading(false);
+    // });
 
     const voteExists = localStorage.getItem("vote");
     // const candidatesDataExists = localStorage.getItem("candidatesData");
