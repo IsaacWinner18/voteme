@@ -5,7 +5,7 @@ import { Progress } from "@/components/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart } from "lucide-react";
 
-// import ClipLoader from "react-spinners/ClipLoader";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const saveVoteToLocalStorage = (candidateId: string) => {
   localStorage.setItem("vote", candidateId.toString());
@@ -124,9 +124,7 @@ const Election = () => {
   return (
     <div>
       <div
-        className={`bg-gradient-to-br from-gray-900 to-blue-900 text-white pt-4 ${
-          loading ? "grid" : "hidden"
-        }`}
+        className={`bg-gradient-to-br from-gray-900 to-blue-900 text-white pt-4 `}
       >
         {/* <button
         className="text-xs border bg-white text-black rounded-md shadow-lg p-1"
@@ -135,9 +133,17 @@ const Election = () => {
         Dangerous
       </button> */}
 
-        <h1 className="text-5xl font-bold text-center mb-12 text-white">
-          Cast Your Vote!
+      <div>
+      <h1 className="text-2xl md:text-4xl font-bold text-center md:mb-12 mb-6 text-white">
+        <p className="opacity-40">Achievers University Voting week</p>
+
+          <p className="text-blue-200">Cast Your Vote!</p>
         </h1>
+
+
+      </div>
+
+        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
           {candidates.map((candidate) => {
             return (
