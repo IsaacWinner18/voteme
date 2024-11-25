@@ -34,9 +34,9 @@ const Election = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const server_url = "http://localhost:5000";
+  // const server_url = "http://localhost:5000";
   // const server_url = "http://192.168.21.122:5000";
-  // const server_url = "https://voteme-production.up.railway.app";
+  const server_url = "https://voteme-production.up.railway.app";
 
   const fetchUsers = async () => {
     const data = await fetch(`${server_url}/users`);
