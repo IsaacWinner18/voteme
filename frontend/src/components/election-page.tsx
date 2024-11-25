@@ -4,60 +4,39 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart } from "lucide-react";
-
-// import ClipLoader from "react-spinners/ClipLoader";
-
-const saveVoteToLocalStorage = (candidateId: string) => {
-  localStorage.setItem("vote", candidateId.toString());
-};
-
-// Mock data for candidates
-// const initialCandidates = [
-//   {
-//     id: 1,
-//     name: "Candidate A",
-//     image: "https://placehold.co/600x400",
-//     description: "Innovative solutions for a brighter future",
-//     votes: 0,
-//   },
-//   {
-//     id: 2,
-//     name: "Candidate B",
-//     image: "https://placehold.co/600x400",
-//     description: "Empowering communities through technology",
-//     votes: 0,
-//   },
-//   {
-//     id: 3,
-//     name: "Candidate C",
-//     image: "https://placehold.co/600x400",
-//     description: "Sustainable development for all",
-//     votes: 0,
-//   },
-//   {
-//     id: 4,
-//     name: "Candidate D",
-//     image: "https://placehold.co/600x400",
-//     description: "Bridging gaps in education and opportunity",
-//     votes: 0,
-//   },
-// ];
+import { LoginPopupComponent } from "./login-popup";
+import { ClipLoader } from "react-spinners";
+// import { div } from "framer-motion/client";
 
 const Election = () => {
   const [candidates, setCandidates] = useState<
     {
       _id: string;
       name: string;
-      votes: number;
+      votes: {
+        _id: "6740ce47bc6707b3a8b20f89";
+        email: "11@gmail.com1";
+        verified: true;
+        code: null;
+        __v: 0;
+      }[];
       image: string;
     }[]
   >([]);
   const [votedCandidate, setVotedCandidate] = useState<string | null>(null);
-  // const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<null | {
+    _id: "6740ce47bc6707b3a8b20f89";
+    email: "11@gmail.com1";
+    verified: true;
+    code: null;
+    __v: 0;
+  }>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  // const server_url = "http://localhost:5000";
+  const server_url = "http://localhost:5000";
   // const server_url = "http://192.168.21.122:5000";
-  const server_url = "https://voteme-production.up.railway.app";
+  // const server_url = "https://voteme-production.up.railway.app";
 
   const fetchUsers = async () => {
     const data = await fetch(`${server_url}/users`);
@@ -70,82 +49,120 @@ const Election = () => {
       fetchUsers();
     }, 10000);
   }, []);
+  // const Logout = async () => {
+  //   const data = await fetch(`${server_url}/logout`, {
+  //     credentials: "include",
+  //   });
+
+  //   if (!data.ok) throw new Error("Error while trying to log out.");
+
+  //   setUser(null);
+  //   setVotedCandidate(null);
+  // };
 
   const voteUser = async (id: string) => {
-    const data = await fetch(`${server_url}/user/vote/${id}`, {
+    const request = await fetch(`${server_url}/user/vote/${id}`, {
       method: "PATCH",
+      credentials: "include",
     });
-    const { data: userData } = await data.json();
+    const { data: userData } = await request.json();
+
+    if (!request.ok) throw new Error("Error while trying to vote user.");
+
     setCandidates((candidate) => {
-      const newCandidates = candidate.map((can) => {
+      const votedCandidate = candidate.map((can) => {
         if (can._id === id) {
-          return userData;
+          return {
+            ...can,
+            votes: [...can.votes, userData],
+          };
         }
         return can;
       });
 
-      saveVoteToLocalStorage(id);
-      return newCandidates;
+      return votedCandidate;
     });
   };
 
-  useEffect(() => {
-    fetchUsers();
-
-    // window.addEventListener("DOMContentLoaded", () => {
-    //   setLoading(false);
-    // });
-
-    const voteExists = localStorage.getItem("vote");
-    // const candidatesDataExists = localStorage.getItem("candidatesData");
-
-    if (voteExists) setVotedCandidate(voteExists);
-
-    // if (candidatesDataExists) setCandidates(JSON.parse(candidatesDataExists));
-  }, []);
-
   const handleVote = (candidateId: string) => {
     if (votedCandidate === null) {
-      // setCandidates(() => {
-      //   const newCandidates = candidates.map((candidate) =>
-      //     candidate.id === candidateId
-      //       ? { ...candidate, votes: candidate.votes + 1 }
-      //       : candidate
-      //   );
-      //   return newCandidates;
-      // });
+      if (!user) {
+        return setIsOpen(true);
+      }
       voteUser(candidateId);
       setVotedCandidate(candidateId);
     }
   };
 
-  // if (loading)
+  const fetchUser = async () => {
+    const request = await fetch(`${server_url}/me`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    const response = await request.json();
+
+    if (!request.ok) throw new Error("Error while trying to fetch user data.");
+
+    setUser(response.user);
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await fetchUsers();
+        await fetchUser();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    hasVoted();
+  }, [user]);
+
+  const hasVoted = () => {
+    console.log(user);
+    if (user)
+      candidates.forEach((cand) => {
+        const voteExists = cand.votes.find(
+          (cand_user) => cand_user._id === user?._id
+        );
+        if (voteExists) {
+          setVotedCandidate(cand._id);
+        }
+      });
+  };
 
   return (
     <div>
+      {!loading && isOpen && (
+        <LoginPopupComponent
+          onClose={() => setIsOpen(false)}
+          onLogin={fetchUser}
+          setIsOpen={setIsOpen}
+          setUser={setUser}
+        />
+      )}
       <div
         className={`bg-gradient-to-br from-gray-900 to-blue-900 text-white pt-4 `}
       >
-        {/* <button
-        className="text-xs border bg-white text-black rounded-md shadow-lg p-1"
-        onClick={() => localStorage.clear()}
-      >
-        Dangerous
-      </button> */}
+        <div>
+          {/* <h1 className="text-2xl md:text-4xl font-bold text-center md:mb-12 mb-6 text-white m-1">
+            <p onClick={hasVoted} className="opacity-40">
+              Achievers University Voting week.
+            </p>
 
-      <div>
-      <h1 className="text-2xl md:text-4xl font-bold text-center md:mb-12 mb-6 text-white m-1">
-        <p className="opacity-40">Achievers University Voting week.</p>
+            <p className="text-blue-200">Vote for the beauty of the week!</p>
+          </h1> */}
+        </div>
 
-          <p className="text-blue-200">Vote for Beauty of the week!</p>
-        </h1>
-
-
-      </div>
-
-        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
           {candidates.map((candidate) => {
+            console.log(candidate);
             return (
               <motion.div
                 key={candidate._id}
@@ -176,11 +193,11 @@ const Election = () => {
                     <p className="text-gray-600 mb-4">Achievers University</p>
                     <div className="space-y-2">
                       <Progress
-                        value={candidate.votes * 1}
+                        value={candidate.votes.length}
                         className="h-2 bg-gray-200"
                       />
                       <p className="text-sm text-gray-500 text-right">
-                        {candidate.votes}% of votes
+                        {candidate.votes.length}% of votes
                       </p>
                     </div>
                   </CardContent>
@@ -226,9 +243,21 @@ const Election = () => {
             );
           })}
         </div>
+        {/* <div>
+       {user && (
+          <div className="w-full flex justify-center">
+            <button
+              className="w-fit bg-white text-black mx-auto py-2 px-4"
+              onClick={Logout}
+            >
+              Logout
+            </button>
+          </div>
+        )}
+        </div> */}
       </div>
 
-      {/* <div
+      <div
         className={`${
           loading ? "grid" : "hidden"
         } h-screen place-content-center`}
@@ -240,7 +269,7 @@ const Election = () => {
           aria-label="Loading Spinner"
           data-testid="loader"
         />
-      </div> */}
+      </div>
     </div>
   );
 };
