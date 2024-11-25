@@ -149,7 +149,7 @@ const verifyCode = async (req, res) => {
         .cookie("blob", user._id, {
           httpOnly: true,
           secure: config.NODE_ENV !== "development" ? true : false,
-          sameSite: "lax",
+          sameSite: config.NODE_ENV !== "development" ? "none" : "lax",
           // maxAge: 3600000, // 1 hour
         })
         .json({
