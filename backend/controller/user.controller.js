@@ -48,6 +48,10 @@ const voteUser = async (req, res) => {
   } = req;
   const user = await ParticipantModel.findById(userId);
 
+  if (!user) {
+    res.clearCookie();
+    throw new Error("Invalid user");
+  }
   if (user.votes.includes(activeUserId))
     throw new Error("You've already voted for this participant.");
 
