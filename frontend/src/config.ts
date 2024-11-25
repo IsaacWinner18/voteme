@@ -1,1 +1,2 @@
-export const server_url = "http://localhost:5000";
+export const server_url = "https://voteme-production.up.railway.app";
+// "http://localhost:5000";
