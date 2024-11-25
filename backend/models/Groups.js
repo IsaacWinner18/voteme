@@ -1,13 +1,11 @@
 const mongoose = require("mongoose");
+const { user } = require("./user");
 
 const ParticipantSchema = new mongoose.Schema({
   name: {
     type: String,
   },
-  votes: {
-    type: Number,
-    default: 0,
-  },
+  votes: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
   image: {
     type: String,
     default: "https://placehold.co/600x400",

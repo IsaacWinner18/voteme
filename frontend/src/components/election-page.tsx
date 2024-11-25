@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Heart } from "lucide-react";
 import { LoginPopupComponent } from "./login-popup";
 import { ClipLoader } from "react-spinners";
+import { server_url } from "@/config";
 // import { div } from "framer-motion/client";
 
 const Election = () => {
@@ -36,7 +37,7 @@ const Election = () => {
 
   // const server_url = "http://localhost:5000";
   // const server_url = "http://192.168.21.122:5000";
-  const server_url = "https://voteme-production.up.railway.app";
+  // const server_url = "https://voteme-production.up.railway.app";
 
   const fetchUsers = async () => {
     const data = await fetch(`${server_url}/users`);
