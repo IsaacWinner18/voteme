@@ -6,6 +6,7 @@
 //     },
 //   });
 // };
+const config = require("../config");
 const ParticipantModel = require("../models/Groups");
 const userModel = require("../models/user");
 const nodemailer = require("nodemailer");
@@ -147,7 +148,7 @@ const verifyCode = async (req, res) => {
         .status(200)
         .cookie("blob", user._id, {
           httpOnly: true,
-          secure: false,
+          secure: config.NODE_ENV !== "development" ? true : false,
           sameSite: "lax",
           // maxAge: 3600000, // 1 hour
         })
