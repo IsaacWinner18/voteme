@@ -107,15 +107,15 @@ export function LoginPopupComponent({
     }
     // Here you would typically verify the code with your backend
     // For this example, we'll just check if the code is '1234'
-    if (verificationCode === "1234") {
-      setStep("success");
-      setTimeout(() => {
-        onLogin(email);
-        onClose();
-      }, 2000);
-    } else {
-      setStep("error");
-    }
+    // if (verificationCode === "1234") {
+    //   setStep("success");
+    //   setTimeout(() => {
+    //     onLogin(email);
+    //     onClose();
+    //   }, 2000);
+    // } else {
+    //   setStep("error");
+    // }
   };
 
   return (

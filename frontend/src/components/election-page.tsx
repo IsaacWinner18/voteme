@@ -151,15 +151,15 @@ const Election = () => {
       <div
         className={`bg-gradient-to-br from-gray-900 to-blue-900 text-white pt-4 `}
       >
-        <div>
-          {/* <h1 className="text-2xl md:text-4xl font-bold text-center md:mb-12 mb-6 text-white m-1">
+        {/* <div>
+           <h1 className="text-2xl md:text-4xl font-bold text-center md:mb-12 mb-6 text-white m-1">
             <p onClick={hasVoted} className="opacity-40">
               Achievers University Voting week.
             </p>
 
             <p className="text-blue-200">Vote for the beauty of the week!</p>
-          </h1> */}
-        </div>
+          </h1> 
+        </div> */}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
           {candidates.map((candidate) => {
@@ -181,8 +181,8 @@ const Election = () => {
                   <div className="relative pb-[100%]">
                     <img
                       loading="lazy"
-                      src={candidate.image}
-                      // src="/pexels-dear.jpg"
+                      // src={candidate.image}
+                      src="/pexels-dear.jpg"
                       alt={candidate.name}
                       className="absolute top-0 left-0 w-full h-full object-cover"
                     />
