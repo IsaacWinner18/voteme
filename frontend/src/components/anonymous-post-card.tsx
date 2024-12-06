@@ -94,29 +94,35 @@ export default function AnonymousPostCard() {
         </div>
       </div>
       <div className="mt-8 flex flex-row flex-wrap gap-x-4 gap-y-10 justify-center">
-        {posts.map((post, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white rounded-lg shadow-md max-w-[500px] h-fit w-full md:min-w-[400px] overflow-x-hidden"
-          >
-            <div className="bg-gradient-to-r from-purple-500 to-blue-500 p-2 flex justify-between items-center ">
-              <h3 className="text-sm font-semibold text-white">
-                Anonymous Post #{posts.length - index}
-              </h3>
-              <span className="text-xs text-white opacity-75">
-                &nbsp; {format(post.createdAt)}
-              </span>
-            </div>
-            <div className="px-6 py-14 ">
-              <p className="text-red-800 break-words text-2xl font-bold">
-                {post.content}
-              </p>
-            </div>
-          </motion.div>
-        ))}
+        {posts
+          .sort((a, b) => {
+            return (
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            );
+          })
+          .map((post, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="bg-white rounded-lg shadow-md max-w-[500px] h-fit w-full md:min-w-[400px] overflow-x-hidden"
+            >
+              <div className="bg-gradient-to-r from-purple-500 to-blue-500 p-2 flex justify-between items-center ">
+                <h3 className="text-sm font-semibold text-white">
+                  Anonymous Post #{posts.length - index}
+                </h3>
+                <span className="text-xs text-white opacity-75">
+                  &nbsp; {format(post.createdAt)}
+                </span>
+              </div>
+              <div className="px-6 py-14 ">
+                <p className="text-red-800 break-words text-2xl font-bold">
+                  {post.content}
+                </p>
+              </div>
+            </motion.div>
+          ))}
       </div>
     </div>
   );
