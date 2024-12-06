@@ -203,7 +203,7 @@ const Election = () => {
                             className="h-2 bg-gray-200"
                           />
                           <p className="text-sm text-gray-500 text-right">
-                            {candidate.votes.length}% of votes
+                            {candidate.votes.length} of votes
                           </p>
                         </div>
                       </CardContent>

@@ -33,8 +33,15 @@ const createUser = async (req, res) => {
   });
 };
 
+
 const getUsers = async (req, res) => {
   const users = await ParticipantModel.find().populate("votes");
+  
+  // users.map((user) => {
+  //   user.votes = [];
+  //   user.save();
+  // });
+  
   return res.status(200).json({
     success: true,
     data: users,
