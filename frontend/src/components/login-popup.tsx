@@ -27,7 +27,7 @@ export function LoginPopupComponent({
   setIsOpen,
   setUser,
   onClose,
-  onLogin,
+  
 }: LoginPopupProps) {
   const [email, setEmail] = useState("");
   const [step, setStep] = useState<

@@ -6,9 +6,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Heart } from "lucide-react";
 import { LoginPopupComponent } from "./login-popup";
 import { ClipLoader } from "react-spinners";
-import { server_url } from "@/config";
-import { div } from "framer-motion/client";
-// import AnonymousPost from './anonymous-card';
+// import { server_url } from "@/config";
+// import { div } from "framer-motion/client";
 import AnonymousPostCard from "./anonymous-post-card";
 
 const Election = () => {
