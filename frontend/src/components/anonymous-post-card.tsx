@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { ProgressSpinner } from "primereact/progressspinner";
+
 import { format } from "timeago.js";
 
 interface Post {
@@ -12,6 +14,7 @@ interface Post {
 export default function AnonymousPostCard() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [newPost, setNewPost] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const anon_server_url = "https://voteme-production.up.railway.app/anon";
 
@@ -29,7 +32,6 @@ export default function AnonymousPostCard() {
     setPosts((next) => [post_data, ...next]);
   };
 
-
   const fetchContent = async () => {
     const data = await fetch(anon_server_url);
     // console.log(data)
@@ -44,10 +46,13 @@ export default function AnonymousPostCard() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (newPost.length == 0) return;
     // if (newPost.trim()) {
-    //   setPosts([{ content: newPost, createdAt: new Date() }, ...posts]);  
+    //   setPosts([{ content: newPost, createdAt: new Date() }, ...posts]);
+    setLoading(true);
     await postContent();
     setNewPost("");
+    setLoading(false);
     // }
   };
 
@@ -71,8 +76,19 @@ export default function AnonymousPostCard() {
               whileTap={{ scale: 0.95 }}
               className="mt-2 w-full bg-purple-500 text-white py-2 rounded-md transition-colors duration-300 hover:bg-purple-600"
               type="submit"
+              disabled={loading}
             >
-              Post
+              {!loading && "Post"}
+              {loading && (
+                <div className="card flex justify-content-center">
+                  <ProgressSpinner
+                    style={{ width: "30px", height: "30px" }}
+                    fill="white"
+                    strokeWidth="8"
+                    animationDuration="0.3s"
+                  />
+                </div>
+              )}
             </motion.button>
           </form>
         </div>
@@ -91,7 +107,7 @@ export default function AnonymousPostCard() {
                 Anonymous Post #{posts.length - index}
               </h3>
               <span className="text-xs text-white opacity-75">
-              &nbsp; { format( post.createdAt ) }
+                &nbsp; {format(post.createdAt)}
               </span>
             </div>
             <div className="p-4 ">

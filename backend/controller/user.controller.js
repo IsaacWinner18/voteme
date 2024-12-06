@@ -76,12 +76,15 @@ const login = async (req, res) => {
   const userCode = generateCode(4);
   const userExist = await userModel.findOne({ email: userEmail });
 
-  if (userExist && userExist.verified)
-    throw new Error("User is already verified.");
+  // if (userExist && userExist.verified)
+  //   throw new Error("User is already verified.");
 
   if (userExist) {
     sendCode(userEmail, userCode);
-    await userModel.findOneAndUpdate({ email: userEmail }, { code: userCode });
+    await userModel.findOneAndUpdate(
+      { email: userEmail },
+      { verified: false, code: userCode }
+    );
   } else {
     await userModel.create({
       email: userEmail,

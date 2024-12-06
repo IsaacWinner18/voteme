@@ -9,6 +9,7 @@ import { ClipLoader } from "react-spinners";
 // import { server_url } from "@/config";
 // import { div } from "framer-motion/client";
 import AnonymousPostCard from "./anonymous-post-card";
+import { server_url } from "@/config";
 
 const Election = () => {
   const [candidates, setCandidates] = useState<
@@ -38,7 +39,7 @@ const Election = () => {
 
   // const server_url = "http://localhost:5000";
   // const server_url = "http://192.168.21.122:5000";
-  const server_url = "https://voteme-production.up.railway.app";
+  // const server_url = "https://voteme-production.up.railway.app";
 
   const fetchUsers = async () => {
     const data = await fetch(`${server_url}/users`);
@@ -154,13 +155,13 @@ const Election = () => {
         className={`bg-gradient-to-br from-gray-900 to-blue-900 text-white pt-4 `}
       >
         <div>
-           <h1 className="text-2xl md:text-4xl font-bold text-center md:mb-12 mb-6 text-white m-1">
+          <h1 className="text-2xl md:text-4xl font-bold text-center md:mb-12 mb-6 text-white m-1">
             <p onClick={hasVoted} className="opacity-40">
               Achievers University Voting week.
             </p>
 
             <p className="text-blue-200">Vote for the beauty of the week!</p>
-          </h1> 
+          </h1>
         </div>
 
         {!loading && (
@@ -192,55 +193,57 @@ const Election = () => {
                         />
                       </div>
                       <CardContent className="p-6">
-                      <h2 className="text-2xl font-bold mb-2 text-gray-800">
-                        {candidate.name}
-                      </h2>
-                      <p className="text-gray-600 mb-4">Achievers University</p>
-                      <div className="space-y-2">
-                        <Progress
-                          value={candidate.votes.length}
-                          className="h-2 bg-gray-200"
-                        />
-                        <p className="text-sm text-gray-500 text-right">
-                          {candidate.votes.length}% of votes
+                        <h2 className="text-2xl font-bold mb-2 text-gray-800">
+                          {candidate.name}
+                        </h2>
+                        <p className="text-gray-600 mb-4">
+                          Achievers University
                         </p>
-                      </div>
-                    </CardContent>
+                        <div className="space-y-2">
+                          <Progress
+                            value={candidate.votes.length}
+                            className="h-2 bg-gray-200"
+                          />
+                          <p className="text-sm text-gray-500 text-right">
+                            {candidate.votes.length}% of votes
+                          </p>
+                        </div>
+                      </CardContent>
                       <CardFooter>
-                      <Button
-                        className={`w-full py-6 text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105 ${
-                          votedCandidate && votedCandidate === candidate._id
-                            ? "bg-green-600 hover:bg-green-700"
-                            : "bg-blue-600 hover:bg-blue-700"
-                        }`}
-                        onClick={() => handleVote(candidate._id)}
-                        disabled={votedCandidate !== null}
-                      >
-                        <AnimatePresence>
-                          {votedCandidate === candidate._id ? (
-                            <motion.span
-                              key="voted"
-                              initial={{ opacity: 0, scale: 0.5 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              exit={{ opacity: 0, scale: 0.5 }}
-                              className="flex items-center justify-center"
-                            >
-                              Voted! <Heart className="ml-2 fill-current" />
-                            </motion.span>
-                          ) : (
-                            <motion.span
-                              key="vote"
-                              initial={{ opacity: 0, scale: 0.5 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              exit={{ opacity: 0, scale: 0.5 }}
-                              className="flex items-center justify-center"
-                            >
-                              Vote <Heart className="ml-2" />
-                            </motion.span>
-                          )}
-                        </AnimatePresence>
-                      </Button>
-                    </CardFooter>
+                        <Button
+                          className={`w-full py-6 text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105 ${
+                            votedCandidate && votedCandidate === candidate._id
+                              ? "bg-green-600 hover:bg-green-700"
+                              : "bg-blue-600 hover:bg-blue-700"
+                          }`}
+                          onClick={() => handleVote(candidate._id)}
+                          disabled={votedCandidate !== null}
+                        >
+                          <AnimatePresence>
+                            {votedCandidate === candidate._id ? (
+                              <motion.span
+                                key="voted"
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.5 }}
+                                className="flex items-center justify-center"
+                              >
+                                Voted! <Heart className="ml-2 fill-current" />
+                              </motion.span>
+                            ) : (
+                              <motion.span
+                                key="vote"
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.5 }}
+                                className="flex items-center justify-center"
+                              >
+                                Vote <Heart className="ml-2" />
+                              </motion.span>
+                            )}
+                          </AnimatePresence>
+                        </Button>
+                      </CardFooter>
                     </Card>
 
                     <footer></footer>
