@@ -88,10 +88,10 @@ export default function AnonymousPostCard() {
           >
             <div className="bg-gradient-to-r from-purple-500 to-blue-500 p-2 flex justify-between items-center">
               <h3 className="text-sm font-semibold text-white">
-                Anonymous Post # {posts.length - index}
+                Anonymous Post # &nbsp; {posts.length - index}
               </h3>
               <span className="text-xs text-white opacity-75">
-                {format(post.createdAt)}
+                 { format( post.createdAt ) }
               </span>
             </div>
             <div className="p-4 ">
