@@ -13,7 +13,7 @@ export default function AnonymousPostCard() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [newPost, setNewPost] = useState("");
 
-  const anon_server_url = "http://localhost:5000/anon";
+  const anon_server_url = "https://voteme-production.up.railway.app/anon";
 
   const postContent = async () => {
     const post_fetch = await fetch(anon_server_url, {
@@ -35,7 +35,7 @@ export default function AnonymousPostCard() {
     // console.log(data)
     const response = await data.json();
     setPosts(response.data as Post[]);
-    console.log(response);
+    // console.log(response);
   };
 
   useEffect(() => {
