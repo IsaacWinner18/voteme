@@ -185,8 +185,8 @@ const Election = () => {
                       <div className="relative pb-[100%]">
                         <img
                           loading="lazy"
-                          // src={candidate.image}
-                          src="/pexels-dear.jpg"
+                          src={candidate.image}
+                          // src="/pexels-dear.jpg"
                           alt={candidate.name}
                           className="absolute top-0 left-0 w-full h-full object-cover"
                         />
