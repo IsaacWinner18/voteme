@@ -33,15 +33,14 @@ const createUser = async (req, res) => {
   });
 };
 
-
 const getUsers = async (req, res) => {
   const users = await ParticipantModel.find().populate("votes");
-  
+
   // users.map((user) => {
   //   user.votes = [];
   //   user.save();
   // });
-  
+
   return res.status(200).json({
     success: true,
     data: users,
@@ -162,9 +161,11 @@ const verifyCode = async (req, res) => {
         .status(200)
         .cookie("blob", user._id, {
           httpOnly: true,
-          secure: config.NODE_ENV !== "development" ? true : false,
+          secure: true,
+          sameSite: "lax",
+          // secure: config.NODE_ENV !== "development" ? true : false,
           // sameSite: config.NODE_ENV !== "development" ? "none" : "lax",
-          maxAge: 2592000, // 30 days
+          // maxAge: 2592000, // 30 days
         })
         .json({
           success: true,

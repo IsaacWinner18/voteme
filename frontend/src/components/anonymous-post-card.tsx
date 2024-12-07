@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ProgressSpinner } from "primereact/progressspinner";
-
 import { format } from "timeago.js";
+import { server_url } from "@/config";
 
 interface Post {
   _id: string;
@@ -16,10 +16,8 @@ export default function AnonymousPostCard() {
   const [newPost, setNewPost] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const anon_server_url = "https://voteme-production.up.railway.app/anon";
-
   const postContent = async () => {
-    const post_fetch = await fetch(anon_server_url, {
+    const post_fetch = await fetch(`${server_url}/anon`, {
       method: "POST",
       body: JSON.stringify({
         content: newPost,
@@ -33,7 +31,7 @@ export default function AnonymousPostCard() {
   };
 
   const fetchContent = async () => {
-    const data = await fetch(anon_server_url);
+    const data = await fetch(`${server_url}/anon`);
     // console.log(data)
     const response = await data.json();
     setPosts(response.data as Post[]);
@@ -43,8 +41,6 @@ export default function AnonymousPostCard() {
   useEffect(() => {
     fetchContent();
   }, []);
-
-  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
