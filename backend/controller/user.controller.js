@@ -163,7 +163,7 @@ const verifyCode = async (req, res) => {
         .cookie("blob", user._id, {
           httpOnly: true,
           secure: config.NODE_ENV !== "development" ? true : false,
-          sameSite: config.NODE_ENV !== "development" ? "none" : "lax",
+          // sameSite: config.NODE_ENV !== "development" ? "none" : "lax",
           maxAge: 2592000, // 30 days
         })
         .json({

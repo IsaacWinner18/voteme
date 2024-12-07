@@ -44,6 +44,8 @@ export default function AnonymousPostCard() {
     fetchContent();
   }, []);
 
+  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newPost.length == 0) return;
