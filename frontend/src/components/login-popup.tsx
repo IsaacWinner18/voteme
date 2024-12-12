@@ -57,8 +57,7 @@ export function LoginPopupComponent({
       if (response.ok) {
         setStep("verify");
       } else throw new Error();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
+    } catch {
       console.log("SOMETHIGN WENT WRONG WHILE TRYING TO LOGIN THE USER");
     } finally {
       setLoading(false);

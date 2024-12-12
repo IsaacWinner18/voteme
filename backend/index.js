@@ -12,23 +12,24 @@ app.use(cookies());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(
-	cors({
-		origin: ["http://localhost:5173", "https://votememodel.vercel.app"],
-		credentials: true,
-	})
+  cors({
+    // origin: "https://votememodel.vercel.app",
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
 );
 
 app.use(userRoute);
 app.use(anonRoute);
 
 app.use((err, req, res, next) => {
-	res.status(400).json({
-		success: false,
-		message: err.message,
-	});
+  res.status(400).json({
+    success: false,
+    message: err.message,
+  });
 });
 
 app.listen(PORT, async () => {
-	await Connect();
-	console.log(`Running server on ${PORT}`);
+  await Connect();
+  console.log(`Running server on ${PORT}`);
 });

@@ -126,7 +126,7 @@ const Election = () => {
   }, [user]);
 
   const hasVoted = () => {
-    console.log(user);
+    // console.log(user);
     if (user)
       candidates.forEach((cand) => {
         const voteExists = cand.votes.find(

@@ -14,8 +14,8 @@ const nodemailer = require("nodemailer");
 let transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "oritsegbe2001@gmail.com",
-    pass: "oied dxon empf rbab",
+    user: "scwnnr@gmail.com",
+    pass: "boyn anqz svyx wgew",
   },
   host: "smtp.gmail.com",
   port: 465,
@@ -78,24 +78,26 @@ const login = async (req, res) => {
   // store email on db
   // send code to email (there should be a send again and edit email btns)
   // verify the code
-  const userEmail = req.body.email;
+  let userEmail = req.body.email;
+  if (!userEmail) throw new Error("No email has been provided.");
+  userEmail = userEmail.trim();
+
   const userCode = generateCode(4);
   const userExist = await userModel.findOne({ email: userEmail });
 
-  // if (userExist && userExist.verified)
-  //   throw new Error("User is already verified.");
-
+  console.log(userCode);
   if (userExist) {
-    sendCode(userEmail, userCode);
     await userModel.findOneAndUpdate(
       { email: userEmail },
       { verified: false, code: userCode }
     );
+    sendCode(userEmail, userCode);
   } else {
     await userModel.create({
       email: userEmail,
       code: userCode,
     });
+
     sendCode(userEmail, userCode);
   }
 
@@ -119,7 +121,7 @@ const generateCode = (length) => {
 const sendCode = (userMail, algoCode) => {
   console.log("SENDING CODE....");
   transporter.sendMail({
-    from: "oritsegbe2001@gmail.com",
+    from: "scwnnr@gmail.com",
     to: userMail,
     subject: "Verification Code",
     text: algoCode,
@@ -160,9 +162,11 @@ const verifyCode = async (req, res) => {
       return res
         .status(200)
         .cookie("blob", user._id, {
+          path: "/",
           httpOnly: true,
           secure: true,
-          sameSite: "lax",
+          sameSite: "none",
+          // sameSite: "lax",
           // secure: config.NODE_ENV !== "development" ? true : false,
           // sameSite: config.NODE_ENV !== "development" ? "none" : "lax",
           // maxAge: 2592000, // 30 days
