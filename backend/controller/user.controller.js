@@ -169,7 +169,7 @@ const verifyCode = async (req, res) => {
           // sameSite: "lax",
           // secure: config.NODE_ENV !== "development" ? true : false,
           // sameSite: config.NODE_ENV !== "development" ? "none" : "lax",
-          // maxAge: 2592000, // 30 days
+          maxAge: 2592000, // 30 days
         })
         .json({
           success: true,
