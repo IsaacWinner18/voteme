@@ -174,7 +174,7 @@ const Election = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                   >
-                    {/* <Card
+                     <Card
                       className={`bg-white text-gray-900 overflow-hidden transition-all duration-300 ${
                         votedCandidate && votedCandidate !== candidate._id
                           ? "opacity-50 scale-95"
@@ -242,7 +242,7 @@ const Election = () => {
                           </AnimatePresence>
                         </Button>
                       </CardFooter>
-                    </Card> */}
+                    </Card> 
 
                     <footer></footer>
                   </motion.div>
