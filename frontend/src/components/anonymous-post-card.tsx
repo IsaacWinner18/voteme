@@ -32,7 +32,7 @@ export default function AnonymousPostCard() {
 
   const fetchContent = async () => {
     const data = await fetch(`${server_url}/anon`);
-    // console.log(data)
+    console.log(data)
     const response = await data.json();
     setPosts(response.data as Post[]);
     // console.log(response);

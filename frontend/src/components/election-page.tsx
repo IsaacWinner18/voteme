@@ -42,7 +42,7 @@ const Election = () => {
   const fetchUsers = async () => {
     const data = await fetch(`${server_url}/users`);
     const { data: userData } = await data.json();
-    // console.log(userData)
+    console.log(userData)
     setCandidates(userData);
   };
 
